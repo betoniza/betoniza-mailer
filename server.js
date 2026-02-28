@@ -20,10 +20,15 @@ app.get("/", (req, res) => res.send("BETONIZA mailer OK"));
 
 app.post("/order", async (req, res) => {
   try {
-    const secretFromQuery = req.query?.key;
-    if (SECRET && secretFromQuery !== SECRET) {
-      return res.status(401).send("Unauthorized");
-    }
+const incomingKey =
+  req.body?.api_key ||
+  req.body?.apikey ||
+  req.body?.key ||
+  "";
+
+if (SECRET && incomingKey !== SECRET) {
+  return res.status(401).send("Unauthorized");
+}
 
     const { email, order_number, amount, order_details, order_date } = req.body || {};
     if (!email) return res.status(400).send("No email");
