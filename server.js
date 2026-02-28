@@ -20,7 +20,8 @@ app.get("/", (req, res) => res.send("BETONIZA mailer OK"));
 
 app.post("/order", async (req, res) => {
   try {
-    if (SECRET && req.headers["x-betoniza-secret"] !== SECRET) {
+    const secretFromQuery = req.query?.key;
+    if (SECRET && secretFromQuery !== SECRET) {
       return res.status(401).send("Unauthorized");
     }
 
